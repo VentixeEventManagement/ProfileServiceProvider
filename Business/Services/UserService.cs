@@ -3,6 +3,7 @@ using Business.Interfaces;
 using Business.Models;
 using Data.Entities;
 using Data.Interfaces;
+using Domain.Models;
 using System.Linq.Expressions;
 
 namespace Business.Services;
@@ -45,18 +46,17 @@ public class UserService(IUserRepository userRepository) : IUserService
         return new ResponseResult<User> { Succeeded = true, StatusCode = 200, Result = user };
     }
 
-    public async Task<ResponseResult> UpdateProfileInfoAsync(User user)
+    public async Task<ResponseResult> UpdateProfileInfoAsync(string userId, UserUpdateForm user)
     {
         try
         {
+            if (userId == null)
+                return new ResponseResult { Succeeded = false, Message = "User id is null", StatusCode = 400 };
+
             if (user == null)
                 return new ResponseResult { Succeeded = false, Message = "User is null", StatusCode = 400 };
 
-            var entity = UserFactory.Create(user);
-            if (entity == null)
-                return new ResponseResult { Succeeded = false, Message = "Invalid user information", StatusCode = 422 };
-
-            var updated = await _userRepository.UpdateAsync(entity);
+            var updated = await _userRepository.UpdateAsync(userId,  user);
             if (!updated)
                 return new ResponseResult<User> { Succeeded = false, Message = "Couldn't update user information.", StatusCode = 500, };
 
@@ -68,18 +68,14 @@ public class UserService(IUserRepository userRepository) : IUserService
         }
     }
 
-    public async Task<ResponseResult> DeleteProfileInfoAsync(User user)
+    public async Task<ResponseResult> DeleteProfileInfoAsync(string userId)
     {
         try
         {
-            if (user == null)
-                return new ResponseResult { Succeeded = false, Message = "User is null", StatusCode = 400 };
+            if (userId == null)
+                return new ResponseResult { Succeeded = false, Message = "User id is null", StatusCode = 400 };
 
-            var entity = UserFactory.Create(user);
-            if (entity == null)
-                return new ResponseResult { Succeeded = false, Message = "Invalid user information", StatusCode = 422 };
-
-            var deleted = await _userRepository.DeleteAsync(entity);
+            var deleted = await _userRepository.DeleteAsync(userId);
             if (!deleted)
                 return new ResponseResult<User> { Succeeded = false, Message = "Couldn't delete user information.", StatusCode = 500, };
 
