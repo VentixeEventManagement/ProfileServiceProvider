@@ -11,7 +11,7 @@ public static class UserFactory
         var entity = new UserEntity
         {
             UserId = formData.UserId,
-            ProfileImage = formData.ProfileImage,
+            ProfileImageUrl = formData.ProfileImageUrl,
             FirstName = formData.FirstName,
             LastName = formData.LastName,
         };
@@ -27,7 +27,7 @@ public static class UserFactory
             UserId = userEntity.UserId,
             FirstName = userEntity.FirstName,
             LastName = userEntity.LastName,
-            ProfileImage = userEntity.ProfileImage,
+            ProfileImageUrl = userEntity.ProfileImageUrl,
         };
 
         return user;
@@ -38,7 +38,7 @@ public static class UserFactory
         var entity = new UserEntity
         {
             UserId = user.UserId,
-            ProfileImage = user.ProfileImage,
+            ProfileImageUrl = user.ProfileImageUrl,
             FirstName = user.FirstName,
             LastName = user.LastName,
         };
