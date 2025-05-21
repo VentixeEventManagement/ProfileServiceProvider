@@ -1,4 +1,5 @@
 ﻿using Business.Factories;
+using Business.Interfaces;
 using Business.Models;
 using Data.Entities;
 using Data.Interfaces;
@@ -6,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace Business.Services;
 
-public class UserService(IUserRepository userRepository)
+public class UserService(IUserRepository userRepository) : IUserService
 {
     private readonly IUserRepository _userRepository = userRepository;
 
@@ -24,7 +25,8 @@ public class UserService(IUserRepository userRepository)
 
             return new ResponseResult { Succeeded = true, Message = "Profile information was created successfully.", StatusCode = 201 };
 
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return new ResponseResult { Succeeded = false, Message = ex.Message, StatusCode = 500 };
         }
@@ -59,7 +61,8 @@ public class UserService(IUserRepository userRepository)
                 return new ResponseResult<User> { Succeeded = false, Message = "Couldn't update user information.", StatusCode = 500, };
 
             return new ResponseResult<User> { Succeeded = true, Message = "User information updated successfully.", StatusCode = 200 };
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return new ResponseResult { Succeeded = false, Message = ex.Message, StatusCode = 500 };
         }
@@ -81,7 +84,8 @@ public class UserService(IUserRepository userRepository)
                 return new ResponseResult<User> { Succeeded = false, Message = "Couldn't delete user information.", StatusCode = 500, };
 
             return new ResponseResult<User> { Succeeded = true, Message = "User information deleted successfully.", StatusCode = 200 };
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return new ResponseResult { Succeeded = false, Message = ex.Message, StatusCode = 500 };
         }
