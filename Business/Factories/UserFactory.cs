@@ -45,17 +45,4 @@ public static class UserFactory
 
         return entity;
     }
-
-    public static UserEntity Create(UserUpdateForm formData, string userId)
-    {
-        var entity = new UserEntity
-        {
-            UserId = userId,
-            ProfileImageUrl = formData.ProfileImageUrl,
-            FirstName = formData.FirstName,
-            LastName = formData.LastName,
-        };
-
-        return entity;
-    }
 }

@@ -78,11 +78,15 @@ public class UserRepository(DataContext context) : IUserRepository
         }
     }
 
-    public async Task<bool> DeleteAsync(UserEntity user)
+    public async Task<bool> DeleteAsync(string userId)
     {
         try
         {
-            _context.Remove(user);
+            var existingEntity = await _context.ProfileInfo.FirstOrDefaultAsync(x => x.UserId == userId);
+            if (existingEntity == null)
+                return false;
+
+            _context.Remove(existingEntity);
             var result = await _context.SaveChangesAsync();
             return true;
 

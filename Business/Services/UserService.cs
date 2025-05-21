@@ -50,12 +50,11 @@ public class UserService(IUserRepository userRepository) : IUserService
     {
         try
         {
+            if (userId == null)
+                return new ResponseResult { Succeeded = false, Message = "User id is null", StatusCode = 400 };
+
             if (user == null)
                 return new ResponseResult { Succeeded = false, Message = "User is null", StatusCode = 400 };
-
-            //var entity = UserFactory.Create(user, userId);
-            //if (entity == null)
-            //    return new ResponseResult { Succeeded = false, Message = "Invalid user information", StatusCode = 422 };
 
             var updated = await _userRepository.UpdateAsync(userId,  user);
             if (!updated)
@@ -69,18 +68,14 @@ public class UserService(IUserRepository userRepository) : IUserService
         }
     }
 
-    public async Task<ResponseResult> DeleteProfileInfoAsync(User user)
+    public async Task<ResponseResult> DeleteProfileInfoAsync(string userId)
     {
         try
         {
-            if (user == null)
-                return new ResponseResult { Succeeded = false, Message = "User is null", StatusCode = 400 };
+            if (userId == null)
+                return new ResponseResult { Succeeded = false, Message = "User id is null", StatusCode = 400 };
 
-            var entity = UserFactory.Create(user);
-            if (entity == null)
-                return new ResponseResult { Succeeded = false, Message = "Invalid user information", StatusCode = 422 };
-
-            var deleted = await _userRepository.DeleteAsync(entity);
+            var deleted = await _userRepository.DeleteAsync(userId);
             if (!deleted)
                 return new ResponseResult<User> { Succeeded = false, Message = "Couldn't delete user information.", StatusCode = 500, };
 
