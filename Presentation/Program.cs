@@ -1,3 +1,5 @@
+using Business.Interfaces;
+using Business.Services;
 using Data.Interfaces;
 using Data.Repositories;
 
@@ -8,6 +10,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(option => { option.AddPolicy("AllowAll", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());  });
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 app.MapOpenApi();
