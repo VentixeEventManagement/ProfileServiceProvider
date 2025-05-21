@@ -149,3 +149,18 @@ Ett RESTful API för att hantera användarprofilinformation. Byggt med .NET och 
 Ta ner ProfileServiceProvider på din dator. Skapa en ny appsettings.json. 
 Skapa sedan en lokal databas och lägg till sökvägen till den i appsettings.json.
 Starta ProfileServiceProvider lokalt och Swagger ska startas automatiskt.
+
+
+## 🔐 Konfigurera API-nyckel
+
+För att skydda API:t används en API-nyckel som måste skickas med i varje förfrågan via headern `X-API-KEY`.
+
+### 🛠️ Så här lägger du till API-nyckeln i `appsettings.json`
+
+Öppna filen `appsettings.json` eller `appsettings.Development.json` och lägg till följande:
+
+```json
+"ApiKeys": {
+  "StandardApiKey": "din-api-nyckel-här"
+}
+```
