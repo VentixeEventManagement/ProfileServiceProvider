@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
 
-namespace Data.Entities;
+namespace Business.Models;
 
-public class UserEntity
+public class UserRegistrationForm
 {
-    [Key]
-    public string Id { get; set; } = null!;
     public string UserId { get; set; } = null!;
     public IFormFile? ProfileImage { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
+
 }

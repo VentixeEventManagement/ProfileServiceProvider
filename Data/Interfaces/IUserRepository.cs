@@ -6,8 +6,8 @@ namespace Data.Interfaces
     public interface IUserRepository
     {
         Task<bool> AddAsync(UserEntity user);
-        Task<int> DeleteAsync(UserEntity user);
+        Task<bool> DeleteAsync(UserEntity user);
         Task<UserEntity?> GetAsync(Expression<Func<UserEntity, bool>> expression);
-        Task<int> UpdateAsync(UserEntity user);
+        Task<bool> UpdateAsync(UserEntity user);
     }
 }
