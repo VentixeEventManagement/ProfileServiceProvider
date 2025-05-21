@@ -40,7 +40,7 @@ public class UserRepository(DataContext context) : IUserRepository
                 return null;
             }
 
-            var entity = await _context.Users.FirstOrDefaultAsync(expression);
+            var entity = await _context.ProfileInfo.FirstOrDefaultAsync(expression);
             if (entity == null)
             {
                 return null;
