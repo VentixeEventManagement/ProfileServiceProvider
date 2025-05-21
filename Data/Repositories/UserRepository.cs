@@ -54,33 +54,33 @@ public class UserRepository(DataContext context) : IUserRepository
         }
     }
 
-    public async Task<int> UpdateAsync(UserEntity user)
+    public async Task<bool> UpdateAsync(UserEntity user)
     {
         try
         {
             _context.Update(user);
             var result = await _context.SaveChangesAsync();
-            return result;
+            return true;
 
         }
         catch (Exception ex)
         {
-            return default;
+            return false;
         }
     }
 
-    public async Task<int> DeleteAsync(UserEntity user)
+    public async Task<bool> DeleteAsync(UserEntity user)
     {
         try
         {
             _context.Remove(user);
             var result = await _context.SaveChangesAsync();
-            return result;
+            return true;
 
         }
         catch (Exception ex)
         {
-            return default;
+            return false;
         }
     }
 }

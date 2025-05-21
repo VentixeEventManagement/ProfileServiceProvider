@@ -42,4 +42,17 @@ public class UserService(IUserRepository userRepository)
 
         return new ResponseResult<User> { Succeeded = true, StatusCode = 200, Result = user };
     }
+
+    public async Task<ResponseResult> UpdateProfileInfoAsync(User user)
+    {
+        var entity = UserFactory.Create(user);
+        if (entity == null) 
+            return new ResponseResult { Succeeded = false, Message = "Invalid user info" };
+
+        var result  = await _userRepository.UpdateAsync(entity);
+        if (!result)
+            return new ResponseResult<User> { Succeeded = false, Message = "Couldn't update user information.", StatusCode = 400, };
+
+        return new ResponseResult<User> { Succeeded = true, Message = "User information updated successfully.", StatusCode = 200 };
+    }
 }

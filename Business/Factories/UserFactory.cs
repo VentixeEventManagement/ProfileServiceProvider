@@ -1,5 +1,6 @@
 ﻿using Business.Models;
 using Data.Entities;
+using Microsoft.SqlServer.Server;
 
 namespace Business.Factories;
 
@@ -30,5 +31,18 @@ public static class UserFactory
         };
 
         return user;
+    }
+
+    public static UserEntity Create(User user)
+    {
+        var entity = new UserEntity
+        {
+            UserId = user.UserId,
+            ProfileImage = user.ProfileImage,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+        };
+
+        return entity;
     }
 }
