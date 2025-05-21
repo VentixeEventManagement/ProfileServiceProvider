@@ -58,7 +58,7 @@ public class UserService(IUserRepository userRepository) : IUserService
 
             var updated = await _userRepository.UpdateAsync(userId,  user);
             if (!updated)
-                return new ResponseResult<User> { Succeeded = false, Message = "Couldn't update user information.", StatusCode = 500, };
+                return new ResponseResult<User> { Succeeded = false, Message = "Invalid user id.", StatusCode = 400, };
 
             return new ResponseResult<User> { Succeeded = true, Message = "User information updated successfully.", StatusCode = 200 };
         }

@@ -2,9 +2,16 @@
 using Business.Models;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Documentation;
+using Presentation.Extensions.Attributes;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace Presentation.Controllers;
 
+[Produces("application/json")]
+[Consumes("application/json")]
+[UseApiKey]
 [Route("api/[controller]")]
 [ApiController]
 public class UserController(IUserService userService) : ControllerBase
@@ -12,6 +19,10 @@ public class UserController(IUserService userService) : ControllerBase
     private readonly IUserService _userService = userService;
 
     [HttpPost("add")]
+    [SwaggerOperation(Summary = "Adds profile information.")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Profile information was created successfully.")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Profile request contained invalid properties or missing properties.")]
+    [SwaggerRequestExample(typeof(UserRegistrationForm), typeof(UserRegistrationForm_Example))]
     public async Task<IActionResult> AddUserInfo(UserRegistrationForm form)
     {
         if (!ModelState.IsValid) 
@@ -25,6 +36,9 @@ public class UserController(IUserService userService) : ControllerBase
     }
 
     [HttpGet("get")]
+    [SwaggerOperation(Summary = "Retrieving profile information.")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Profile information was retrieved successfully.")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Missing user id.")]
     public async Task<IActionResult> GetUserInfo(string userId)
     {
         if (userId == null)
@@ -38,15 +52,17 @@ public class UserController(IUserService userService) : ControllerBase
     }
 
     [HttpPost("update")]
-    public async Task<IActionResult> UpdateUserInfo(string userId, [FromBody] UserUpdateForm user)
+    [SwaggerOperation(Summary = "Updating profile information.")]
+    [SwaggerResponse(StatusCodes.Status200OK, "User information updated successfully.")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Missing user id or new profile information contained invalid properties or missing properties.")]
+    [SwaggerRequestExample(typeof(UserUpdateForm), typeof(UserUpdateForm_Example))]
+    public async Task<IActionResult> UpdateUserInfo([FromBody] UserUpdateForm user)
     {
-        if (userId == null)
-            return BadRequest("User id is missing.");
 
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var result = await _userService.UpdateProfileInfoAsync(userId, user);
+        var result = await _userService.UpdateProfileInfoAsync(user.UserId, user);
         if (!result.Succeeded)
             return BadRequest(result.Message);
 
@@ -54,6 +70,9 @@ public class UserController(IUserService userService) : ControllerBase
     }
 
     [HttpPost("delete")]
+    [SwaggerOperation(Summary = "Deleting profile information.")]
+    [SwaggerResponse(StatusCodes.Status200OK, "User information deleted successfully.")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Missing user id.")]
     public async Task<IActionResult> DeleteUserInfo(string userId)
     {
         if (userId == null)
