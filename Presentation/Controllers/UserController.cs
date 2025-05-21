@@ -36,5 +36,16 @@ public class UserController(IUserService userService) : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> UpdateUserInfo(User user)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
+        var result = await _userService.UpdateProfileInfoAsync(user);
+        if (!result.Succeeded)
+            return BadRequest(result.Message);
+
+        return Ok(result);
+    }
 }
