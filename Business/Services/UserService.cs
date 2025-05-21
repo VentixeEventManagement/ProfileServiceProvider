@@ -31,4 +31,9 @@ public class UserService(IUserRepository userRepository)
             return new ResponseResult { Succeeded = false, Message = ex.Message };
         }
     }
+
+    public async Task<ResponseResult<User>> GetUserInfoAsync()
+    {
+
+    }
 }

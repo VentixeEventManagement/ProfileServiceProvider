@@ -17,4 +17,18 @@ public static class UserFactory
 
         return entity;
     }
+
+    public static User Create(UserEntity userEntity)
+    {
+        var user = new User
+        {
+            Id = userEntity.Id,
+            UserId = userEntity.UserId,
+            FirstName = userEntity.FirstName,
+            LastName = userEntity.LastName,
+            ProfileImage = userEntity.ProfileImage,
+        };
+
+        return user;
+    }
 }
