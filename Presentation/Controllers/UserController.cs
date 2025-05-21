@@ -11,7 +11,7 @@ public class UserController(IUserService userService) : ControllerBase
     private readonly IUserService _userService = userService;
 
     [HttpPost]
-    public async Task<IActionResult> Create(UserRegistrationForm form)
+    public async Task<IActionResult> AddUserInfo(UserRegistrationForm form)
     {
         if (!ModelState.IsValid) 
             return BadRequest(ModelState);
@@ -22,4 +22,19 @@ public class UserController(IUserService userService) : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpPost("userId")]
+    public async Task<IActionResult> GetUserInfo(string userId)
+    {
+        if (userId == null)
+            return BadRequest();
+
+        var result = await _userService.GetUserInfoAsync(x => x.UserId == userId);
+        if (!result.Succeeded)
+            return BadRequest(result.Message);
+
+        return Ok(result);
+    }
+
+
 }
