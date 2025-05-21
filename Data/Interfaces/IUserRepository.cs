@@ -1,4 +1,5 @@
 ﻿using Data.Entities;
+using Domain.Models;
 using System.Linq.Expressions;
 
 namespace Data.Interfaces
@@ -7,7 +8,8 @@ namespace Data.Interfaces
     {
         Task<bool> AddAsync(UserEntity user);
         Task<bool> DeleteAsync(UserEntity user);
+        Task<bool> ExistsAsync(string userId);
         Task<UserEntity?> GetAsync(Expression<Func<UserEntity, bool>> expression);
-        Task<bool> UpdateAsync(UserEntity user);
+        Task<bool> UpdateAsync(string userId, UserUpdateForm user);
     }
 }

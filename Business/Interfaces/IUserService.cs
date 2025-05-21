@@ -1,5 +1,6 @@
 ﻿using Business.Models;
 using Data.Entities;
+using Domain.Models;
 using System.Linq.Expressions;
 
 namespace Business.Interfaces
@@ -9,6 +10,6 @@ namespace Business.Interfaces
         Task<ResponseResult> AddUserInfoasync(UserRegistrationForm form);
         Task<ResponseResult> DeleteProfileInfoAsync(User user);
         Task<ResponseResult<User>> GetUserInfoAsync(Expression<Func<UserEntity, bool>> expression);
-        Task<ResponseResult> UpdateProfileInfoAsync(User user);
+        Task<ResponseResult> UpdateProfileInfoAsync(string userId, UserUpdateForm user);
     }
 }

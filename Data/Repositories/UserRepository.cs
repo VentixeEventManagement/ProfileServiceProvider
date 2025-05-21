@@ -1,6 +1,7 @@
 ﻿using Data.Contexts;
 using Data.Entities;
 using Data.Interfaces;
+using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -54,11 +55,19 @@ public class UserRepository(DataContext context) : IUserRepository
         }
     }
 
-    public async Task<bool> UpdateAsync(UserEntity user)
+    public async Task<bool> UpdateAsync(string userId, UserUpdateForm user)
     {
         try
         {
-            _context.Update(user);
+            var existingEntity = await _context.ProfileInfo.FirstOrDefaultAsync(x => x.UserId == userId);
+            if (existingEntity == null) 
+                return false;
+
+            existingEntity.ProfileImageUrl = user.ProfileImageUrl;
+            existingEntity.FirstName = user.FirstName;
+            existingEntity.LastName = user.LastName;
+
+            _context.Update(existingEntity);
             var result = await _context.SaveChangesAsync();
             return true;
 
@@ -79,6 +88,22 @@ public class UserRepository(DataContext context) : IUserRepository
 
         }
         catch (Exception ex)
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> ExistsAsync(string userId)
+    {
+        try
+        {
+            var entity = await GetAsync(x => x.UserId == userId);
+            if (entity == null)
+                return false;
+
+            return true;
+
+        } catch (Exception ex)
         {
             return false;
         }

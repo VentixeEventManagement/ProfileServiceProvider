@@ -1,6 +1,6 @@
 ﻿using Business.Models;
 using Data.Entities;
-using Microsoft.SqlServer.Server;
+using Domain.Models;
 
 namespace Business.Factories;
 
@@ -41,6 +41,19 @@ public static class UserFactory
             ProfileImageUrl = user.ProfileImageUrl,
             FirstName = user.FirstName,
             LastName = user.LastName,
+        };
+
+        return entity;
+    }
+
+    public static UserEntity Create(UserUpdateForm formData, string userId)
+    {
+        var entity = new UserEntity
+        {
+            UserId = userId,
+            ProfileImageUrl = formData.ProfileImageUrl,
+            FirstName = formData.FirstName,
+            LastName = formData.LastName,
         };
 
         return entity;

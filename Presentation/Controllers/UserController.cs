@@ -1,5 +1,6 @@
 ﻿using Business.Interfaces;
 using Business.Models;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers;
@@ -23,7 +24,7 @@ public class UserController(IUserService userService) : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("userId")]
+    [HttpGet("{userId}")]
     public async Task<IActionResult> GetUserInfo(string userId)
     {
         if (userId == null)
@@ -36,13 +37,13 @@ public class UserController(IUserService userService) : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet]
-    public async Task<IActionResult> UpdateUserInfo(User user)
+    [HttpPost("{userId}")]
+    public async Task<IActionResult> UpdateUserInfo(string userId, [FromBody] UserUpdateForm user)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var result = await _userService.UpdateProfileInfoAsync(user);
+        var result = await _userService.UpdateProfileInfoAsync(userId, user);
         if (!result.Succeeded)
             return BadRequest(result.Message);
 

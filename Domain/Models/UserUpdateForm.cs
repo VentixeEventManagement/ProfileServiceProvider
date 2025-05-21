@@ -1,4 +1,4 @@
-﻿namespace Business.Models;
+﻿namespace Domain.Models;
 
 public class UserUpdateForm
 {
