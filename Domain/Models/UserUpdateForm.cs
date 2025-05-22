@@ -1,9 +1,11 @@
-﻿namespace Domain.Models;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Domain.Models;
 
 public class UserUpdateForm
 {
     public string UserId { get; set; } = null!;
-    public string? ProfileImageUrl { get; set; }
+    public IFormFile? ProfileImageUri { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
 }
