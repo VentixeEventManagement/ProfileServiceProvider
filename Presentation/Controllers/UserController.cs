@@ -11,8 +11,6 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace Presentation.Controllers;
 
-[Produces("application/json")]
-[Consumes("application/json")]
 [UseApiKey]
 [Route("api/[controller]")]
 [ApiController]
@@ -20,6 +18,7 @@ public class UserController(IUserService userService) : ControllerBase
 {
     private readonly IUserService _userService = userService;
 
+    [Consumes("multipart/form-data")]
     [HttpPost("add")]
     [SwaggerOperation(Summary = "Adds profile information.")]
     [SwaggerResponse(StatusCodes.Status200OK, "Profile information was created successfully.")]
@@ -53,6 +52,7 @@ public class UserController(IUserService userService) : ControllerBase
         return Ok(result);
     }
 
+    [Consumes("multipart/form-data")]
     [HttpPost("update")]
     [SwaggerOperation(Summary = "Updating profile information.")]
     [SwaggerResponse(StatusCodes.Status200OK, "User information updated successfully.")]
