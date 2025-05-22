@@ -146,6 +146,8 @@ Ett RESTful API för att hantera användarprofilinformation. Byggt med .NET och 
 
 ### Starta API\:t
 
+Länk till Swagger api (https://profileserviceprovider.azurewebsites.net)
+
 Ta ner ProfileServiceProvider på din dator. Skapa en ny appsettings.json. 
 Skapa sedan en lokal databas och lägg till sökvägen till den i appsettings.json.
 Starta ProfileServiceProvider lokalt och Swagger ska startas automatiskt.
