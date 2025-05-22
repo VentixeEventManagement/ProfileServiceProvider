@@ -3,6 +3,8 @@ using Business.Services;
 using Data.Contexts;
 using Data.Interfaces;
 using Data.Repositories;
+using Domain.Handlers;
+using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -51,6 +53,10 @@ builder.Services.AddDbContext<DataContext>(option => option.UseSqlServer(builder
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+var connectionString = builder.Configuration.GetConnectionString("AzureBlobStorage");
+var containerName = "images";
+builder.Services.AddScoped<IAzureFileHandler>(_ => new AzureFileHandler(connectionString!, containerName));
 
 var app = builder.Build();
 app.MapOpenApi();

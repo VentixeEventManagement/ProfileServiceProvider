@@ -1,16 +1,17 @@
 ﻿using Data.Contexts;
 using Data.Entities;
 using Data.Interfaces;
+using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Data.Repositories;
 
-public class UserRepository(DataContext context) : IUserRepository
+public class UserRepository(DataContext context, IAzureFileHandler fileHandler) : IUserRepository
 {
     private readonly DataContext _context = context;
-
+    private readonly IAzureFileHandler _fileHandler = fileHandler;
     public async Task<bool> AddAsync(UserEntity user)
     {
         try
@@ -60,10 +61,12 @@ public class UserRepository(DataContext context) : IUserRepository
         try
         {
             var existingEntity = await _context.ProfileInfo.FirstOrDefaultAsync(x => x.UserId == userId);
-            if (existingEntity == null) 
+            if (existingEntity == null)
                 return false;
 
-            existingEntity.ProfileImageUrl = user.ProfileImageUrl;
+            var imageFileUri = await _fileHandler.UploadFileAsync(user.ProfileImageUri!);
+
+            existingEntity.ProfileImageUrl = imageFileUri;
             existingEntity.FirstName = user.FirstName;
             existingEntity.LastName = user.LastName;
 
@@ -107,7 +110,8 @@ public class UserRepository(DataContext context) : IUserRepository
 
             return true;
 
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return false;
         }

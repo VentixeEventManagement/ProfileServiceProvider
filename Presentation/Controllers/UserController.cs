@@ -1,5 +1,7 @@
 ﻿using Business.Interfaces;
 using Business.Models;
+using Data.Entities;
+using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Documentation;
@@ -25,7 +27,7 @@ public class UserController(IUserService userService) : ControllerBase
     [SwaggerRequestExample(typeof(UserRegistrationForm), typeof(UserRegistrationForm_Example))]
     public async Task<IActionResult> AddUserInfo(UserRegistrationForm form)
     {
-        if (!ModelState.IsValid) 
+        if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
         var result = await _userService.AddUserInfoasync(form);
@@ -56,7 +58,7 @@ public class UserController(IUserService userService) : ControllerBase
     [SwaggerResponse(StatusCodes.Status200OK, "User information updated successfully.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Missing user id or new profile information contained invalid properties or missing properties.")]
     [SwaggerRequestExample(typeof(UserUpdateForm), typeof(UserUpdateForm_Example))]
-    public async Task<IActionResult> UpdateUserInfo([FromBody] UserUpdateForm user)
+    public async Task<IActionResult> UpdateUserInfo([FromForm] UserUpdateForm user)
     {
 
         if (!ModelState.IsValid)
@@ -84,4 +86,5 @@ public class UserController(IUserService userService) : ControllerBase
 
         return Ok(result);
     }
+
 }
