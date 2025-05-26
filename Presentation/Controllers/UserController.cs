@@ -24,7 +24,7 @@ public class UserController(IUserService userService) : ControllerBase
     [SwaggerResponse(StatusCodes.Status200OK, "Profile information was created successfully.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Profile request contained invalid properties or missing properties.")]
     [SwaggerRequestExample(typeof(UserRegistrationForm), typeof(UserRegistrationForm_Example))]
-    public async Task<IActionResult> AddUserInfo(UserRegistrationForm form)
+    public async Task<IActionResult> AddUserInfo([FromForm] UserRegistrationForm form)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
