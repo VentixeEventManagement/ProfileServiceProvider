@@ -40,7 +40,7 @@ public class UserController(IUserService userService) : ControllerBase
     [SwaggerOperation(Summary = "Retrieving profile information.")]
     [SwaggerResponse(StatusCodes.Status200OK, "Profile information was retrieved successfully.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Missing user id.")]
-    public async Task<IActionResult> GetUserInfo(string userId)
+    public async Task<IActionResult> GetUserInfo([FromQuery] string userId)
     {
         if (userId == null)
             return BadRequest();

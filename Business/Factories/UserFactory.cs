@@ -6,12 +6,12 @@ namespace Business.Factories;
 
 public static class UserFactory
 {
-    public static UserEntity Create(UserRegistrationForm formData)
+    public static UserEntity Create(UserRegistrationForm formData, string? imageUri = null)
     {
         var entity = new UserEntity
         {
             UserId = formData.UserId,
-            ProfileImageUrl = formData.ProfileImageUrl,
+            ProfileImageUrl = imageUri,
             FirstName = formData.FirstName,
             LastName = formData.LastName,
         };
