@@ -1,6 +1,5 @@
 ﻿using Business.Models;
 using Data.Entities;
-using Domain.Models;
 
 namespace Business.Factories;
 
@@ -14,6 +13,7 @@ public static class UserFactory
             ProfileImageUrl = imageUri,
             FirstName = formData.FirstName,
             LastName = formData.LastName,
+            PhoneNumber = formData.PhoneNumber,
         };
 
         return entity;
@@ -28,6 +28,7 @@ public static class UserFactory
             FirstName = userEntity.FirstName,
             LastName = userEntity.LastName,
             ProfileImageUrl = userEntity.ProfileImageUrl,
+            PhoneNumber= userEntity.PhoneNumber,
         };
 
         return user;
@@ -41,6 +42,7 @@ public static class UserFactory
             ProfileImageUrl = user.ProfileImageUrl,
             FirstName = user.FirstName,
             LastName = user.LastName,
+            PhoneNumber = user.PhoneNumber  
         };
 
         return entity;

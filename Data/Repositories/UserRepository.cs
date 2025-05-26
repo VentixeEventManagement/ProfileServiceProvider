@@ -90,6 +90,7 @@ public class UserRepository(DataContext context, IAzureFileHandler fileHandler) 
             
             existingEntity.FirstName = user.FirstName;
             existingEntity.LastName = user.LastName;
+            existingEntity.PhoneNumber = user.PhoneNumber;
 
             _context.Update(existingEntity);
             var result = await _context.SaveChangesAsync();
