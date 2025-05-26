@@ -1,9 +1,11 @@
-﻿namespace Business.Models;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Business.Models;
 
 public class UserRegistrationForm
 {
     public string UserId { get; set; } = null!;
-    public string? ProfileImageUrl { get; set; }
+    public IFormFile? ProfileImageUri { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
 

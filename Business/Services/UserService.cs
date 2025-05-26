@@ -3,20 +3,29 @@ using Business.Interfaces;
 using Business.Models;
 using Data.Entities;
 using Data.Interfaces;
+using Domain.Interfaces;
 using Domain.Models;
 using System.Linq.Expressions;
 
 namespace Business.Services;
 
-public class UserService(IUserRepository userRepository) : IUserService
+public class UserService(IUserRepository userRepository, IAzureFileHandler fileHandler) : IUserService
 {
     private readonly IUserRepository _userRepository = userRepository;
+    private readonly IAzureFileHandler _fileHandler = fileHandler;
 
     public async Task<ResponseResult> AddUserInfoasync(UserRegistrationForm form)
     {
         try
         {
-            var entity = UserFactory.Create(form);
+            string? imageFileUri = null;
+
+            if (form.ProfileImageUri != null)
+            {
+                imageFileUri = await _fileHandler.UploadFileAsync(form.ProfileImageUri);
+            }
+
+            var entity = UserFactory.Create(form, imageFileUri);
             if (entity == null)
                 return new ResponseResult { Succeeded = false, Message = "Invalid registration form.", StatusCode = 422 };
 
@@ -46,7 +55,7 @@ public class UserService(IUserRepository userRepository) : IUserService
             users.Add(UserFactory.Create(entity));
         }
 
-        return new ResponseResult<IEnumerable<User>> { Succeeded = true, StatusCode = 200, Result =  users};
+        return new ResponseResult<IEnumerable<User>> { Succeeded = true, StatusCode = 200, Result = users };
     }
 
     public async Task<ResponseResult<User>> GetUserInfoAsync(Expression<Func<UserEntity, bool>> expression)
@@ -72,7 +81,7 @@ public class UserService(IUserRepository userRepository) : IUserService
             if (user == null)
                 return new ResponseResult { Succeeded = false, Message = "User is null", StatusCode = 400 };
 
-            var updated = await _userRepository.UpdateAsync(userId,  user);
+            var updated = await _userRepository.UpdateAsync(userId, user);
             if (!updated)
                 return new ResponseResult<User> { Succeeded = false, Message = "Invalid user id.", StatusCode = 400, };
 

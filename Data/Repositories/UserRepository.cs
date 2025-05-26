@@ -77,9 +77,17 @@ public class UserRepository(DataContext context, IAzureFileHandler fileHandler) 
             if (existingEntity == null)
                 return false;
 
-            var imageFileUri = await _fileHandler.UploadFileAsync(user.ProfileImageUri!);
-
-            existingEntity.ProfileImageUrl = imageFileUri;
+            string? imageFileUri = null;
+            if (user.ProfileImageUri != null)
+            {
+                imageFileUri = await _fileHandler.UploadFileAsync(user.ProfileImageUri);
+            }
+            
+            if (imageFileUri != null)
+            {
+                existingEntity.ProfileImageUrl = imageFileUri;
+            }
+            
             existingEntity.FirstName = user.FirstName;
             existingEntity.LastName = user.LastName;
 
