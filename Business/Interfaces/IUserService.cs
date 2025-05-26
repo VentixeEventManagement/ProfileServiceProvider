@@ -9,6 +9,7 @@ namespace Business.Interfaces
     {
         Task<ResponseResult> AddUserInfoasync(UserRegistrationForm form);
         Task<ResponseResult> DeleteProfileInfoAsync(string userId);
+        Task<ResponseResult<IEnumerable<User>>> GetAllProfilesAsync();
         Task<ResponseResult<User>> GetUserInfoAsync(Expression<Func<UserEntity, bool>> expression);
         Task<ResponseResult> UpdateProfileInfoAsync(string userId, UserUpdateForm user);
     }
