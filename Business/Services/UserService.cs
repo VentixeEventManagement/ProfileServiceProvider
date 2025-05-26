@@ -33,6 +33,22 @@ public class UserService(IUserRepository userRepository) : IUserService
         }
     }
 
+    public async Task<ResponseResult<IEnumerable<User>>> GetAllProfilesAsync()
+    {
+        var users = new List<User>();
+
+        var entities = await _userRepository.GetAllAsync();
+        if (entities == null)
+            return new ResponseResult<IEnumerable<User>> { Succeeded = false, StatusCode = 500, Message = "Something went wrong when fetching profile information." };
+
+        foreach (var entity in entities)
+        {
+            users.Add(UserFactory.Create(entity));
+        }
+
+        return new ResponseResult<IEnumerable<User>> { Succeeded = true, StatusCode = 200, Result =  users};
+    }
+
     public async Task<ResponseResult<User>> GetUserInfoAsync(Expression<Func<UserEntity, bool>> expression)
     {
         var entity = await _userRepository.GetAsync(expression);

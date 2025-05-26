@@ -33,6 +33,19 @@ public class UserRepository(DataContext context, IAzureFileHandler fileHandler) 
         }
     }
 
+    public async Task<IEnumerable<UserEntity>> GetAllAsync()
+    {
+        try
+        {
+            var entites = await _context.ProfileInfo.ToListAsync();
+            return entites;
+
+        } catch (Exception ex)
+        {
+            return null!;
+        }
+    }
+
     public async Task<UserEntity?> GetAsync(Expression<Func<UserEntity, bool>> expression)
     {
         try

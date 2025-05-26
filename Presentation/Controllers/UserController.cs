@@ -52,6 +52,16 @@ public class UserController(IUserService userService) : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("getAll")]
+    public async Task<IActionResult> GetAllUsersInfo()
+    {
+        var result = await _userService.GetAllProfilesAsync();
+        if (!result.Succeeded)
+            return BadRequest(result.Message);
+
+        return Ok(result);
+    }
+
     [Consumes("multipart/form-data")]
     [HttpPost("update")]
     [SwaggerOperation(Summary = "Updating profile information.")]

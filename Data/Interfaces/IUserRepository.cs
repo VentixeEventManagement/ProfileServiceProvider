@@ -9,6 +9,7 @@ namespace Data.Interfaces
         Task<bool> AddAsync(UserEntity user);
         Task<bool> DeleteAsync(string userId);
         Task<bool> ExistsAsync(string userId);
+        Task<IEnumerable<UserEntity>> GetAllAsync();
         Task<UserEntity?> GetAsync(Expression<Func<UserEntity, bool>> expression);
         Task<bool> UpdateAsync(string userId, UserUpdateForm user);
     }
