@@ -1,12 +1,12 @@
 # ProfileServiceProvider
 
-# 📘 User API
+# User API
 
 Ett RESTful API för att hantera användarprofilinformation. Byggt med .NET och uppdelat i tre lager: Presentation (Controller), Business (Service), och Data (Repository).
 
 ---
 
-## 📁 Projektstruktur
+## Projektstruktur
 
 ```
 - Presentation
@@ -33,7 +33,7 @@ Ett RESTful API för att hantera användarprofilinformation. Byggt med .NET och 
 
 ---
 
-## ✅ Funktioner
+## Funktioner
 
 | Funktion            | HTTP-Verb | Route              | Beskrivning                      |
 | ------------------- | --------- | ------------------ | -------------------------------- |
@@ -44,9 +44,9 @@ Ett RESTful API för att hantera användarprofilinformation. Byggt med .NET och 
 
 ---
 
-## 📆 API-specifikation
+## API-specifikation
 
-### 🔹 `POST /api/user/add`
+### `POST /api/user/add`
 
 **Body:**
 
@@ -71,7 +71,7 @@ Ett RESTful API för att hantera användarprofilinformation. Byggt med .NET och 
 
 ---
 
-### 🔹 `GET /api/user/get?userId=123`
+### `GET /api/user/get?userId=123`
 
 **Respons:**
 
@@ -90,7 +90,7 @@ Ett RESTful API för att hantera användarprofilinformation. Byggt med .NET och 
 
 ---
 
-### 🔹 `POST /api/user/update?userId=123`
+### `POST /api/user/update?userId=123`
 
 **Body:**
 
@@ -114,7 +114,7 @@ Ett RESTful API för att hantera användarprofilinformation. Byggt med .NET och 
 
 ---
 
-### 🔹 `POST /api/user/delete?userId=123`
+### `POST /api/user/delete?userId=123`
 
 **Respons:**
 
@@ -128,7 +128,7 @@ Ett RESTful API för att hantera användarprofilinformation. Byggt med .NET och 
 
 ---
 
-## 🧠 Teknisk information
+## Teknisk information
 
 * `UserService` innehåller affärslogiken och anropar `IUserRepository` för databasoperationer.
 * `UserController` hanterar HTTP-anrop och validerar inkommande data.
@@ -137,7 +137,7 @@ Ett RESTful API för att hantera användarprofilinformation. Byggt med .NET och 
 
 ---
 
-## 🚀 Kom igång
+## Kom igång
 
 ### Förutsättningar
 
@@ -153,7 +153,7 @@ Skapa sedan en lokal databas och lägg till sökvägen till den i appsettings.js
 Starta ProfileServiceProvider lokalt och Swagger ska startas automatiskt.
 
 
-## 🔐 Konfigurera API-nyckel
+## Konfigurera API-nyckel
 
 För att skydda API:t används en API-nyckel som måste skickas med i varje förfrågan via headern `X-API-KEY`.
 
