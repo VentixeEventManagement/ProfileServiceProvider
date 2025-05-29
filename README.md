@@ -157,7 +157,7 @@ Starta ProfileServiceProvider lokalt och Swagger ska startas automatiskt.
 
 För att skydda API:t används en API-nyckel som måste skickas med i varje förfrågan via headern `X-API-KEY`.
 
-### 🛠️ Så här lägger du till API-nyckeln i `appsettings.json`
+### Så här lägger du till API-nyckeln i `appsettings.json`
 
 Öppna filen `appsettings.json` eller `appsettings.Development.json` och lägg till följande:
 
@@ -166,3 +166,12 @@ För att skydda API:t används en API-nyckel som måste skickas med i varje för
   "StandardApiKey": "din-api-nyckel-här"
 }
 ```
+
+## Sekvensdiagram
+
+![Sekvensdiagram_ProfileServiceProvider](https://github.com/user-attachments/assets/27de2700-34dc-43c6-9774-a1938048c6c3)
+
+
+## Aktivitestsdiagram
+![Aktivitestsdiagram_profileServiceProvider](https://github.com/user-attachments/assets/1d2b0cc0-2b8d-4d20-b030-f9c7f1136d7b)
+
