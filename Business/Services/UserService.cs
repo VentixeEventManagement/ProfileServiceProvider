@@ -18,7 +18,10 @@ public class UserService(IUserRepository userRepository, IAzureFileHandler fileH
     {
         try
         {
-            string? imageFileUri = null;
+            if (string.IsNullOrWhiteSpace(form.UserId))
+                return new ResponseResult { Succeeded = false, Message = "User id cannot be null or empty.", StatusCode = 400 };
+
+                string? imageFileUri = null;
 
             if (form.ProfileImageUri != null)
             {
@@ -46,29 +49,41 @@ public class UserService(IUserRepository userRepository, IAzureFileHandler fileH
     {
         var users = new List<User>();
 
-        var entities = await _userRepository.GetAllAsync();
-        if (entities == null)
-            return new ResponseResult<IEnumerable<User>> { Succeeded = false, StatusCode = 500, Message = "Something went wrong when fetching profile information." };
-
-        foreach (var entity in entities)
+        try
         {
-            users.Add(UserFactory.Create(entity));
-        }
+            var entities = await _userRepository.GetAllAsync();
+            if (entities == null)
+                return new ResponseResult<IEnumerable<User>> { Succeeded = false, StatusCode = 500, Message = "Something went wrong when fetching profile information." };
 
-        return new ResponseResult<IEnumerable<User>> { Succeeded = true, StatusCode = 200, Result = users };
+            foreach (var entity in entities)
+            {
+                users.Add(UserFactory.Create(entity));
+            }
+
+            return new ResponseResult<IEnumerable<User>> { Succeeded = true, StatusCode = 200, Result = users };
+        } catch (Exception ex)
+        {
+            return new ResponseResult<IEnumerable<User>> { Succeeded = false, Message = ex.Message, StatusCode = 500};
+        }
     }
 
     public async Task<ResponseResult<User>> GetUserInfoAsync(Expression<Func<UserEntity, bool>> expression)
     {
-        var entity = await _userRepository.GetAsync(expression);
-        if (entity == null)
-            return new ResponseResult<User> { Succeeded = false, Message = "User was not found.", StatusCode = 404 };
+        try
+        {
+            var entity = await _userRepository.GetAsync(expression);
+            if (entity == null)
+                return new ResponseResult<User> { Succeeded = false, Message = "User was not found.", StatusCode = 404 };
 
-        var user = UserFactory.Create(entity);
-        if (user == null)
-            return new ResponseResult<User> { Succeeded = false, Message = "Failed to map user.", StatusCode = 500 };
+            var user = UserFactory.Create(entity);
+            if (user == null)
+                return new ResponseResult<User> { Succeeded = false, Message = "Failed to map user.", StatusCode = 500 };
 
-        return new ResponseResult<User> { Succeeded = true, StatusCode = 200, Result = user };
+            return new ResponseResult<User> { Succeeded = true, StatusCode = 200, Result = user };
+        } catch (Exception ex)
+        {
+            return new ResponseResult<User> { Succeeded = false, Message = ex.Message, StatusCode = 500 };
+        }
     }
 
     public async Task<ResponseResult> UpdateProfileInfoAsync(string userId, UserUpdateForm user)
