@@ -53,6 +53,9 @@ public class UserController(IUserService userService) : ControllerBase
     }
 
     [HttpGet("getAll")]
+    [SwaggerOperation(Summary = "Retrieves all user profile information.")]
+    [SwaggerResponse(StatusCodes.Status200OK, "All user profiles were retrieved successfully.")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Failed to retrieve user profiles.")]
     public async Task<IActionResult> GetAllUsersInfo()
     {
         var result = await _userService.GetAllProfilesAsync();
